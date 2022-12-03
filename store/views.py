@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-# from django.contrib import messages
+from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
@@ -27,7 +27,6 @@ def loginUser(request):
                user = User.objects.get(username=username)
           except:
                messages.error(request, 'Username does not exist')
-          
           # fetching user data
           user = authenticate(request, username=username, password=password)
           if user is not None:
@@ -61,22 +60,19 @@ def registerUser(request):
                # creating an user obj
                # check if email and name already exist
                if User.objects.filter(username=username).exists():
-                    return redirect('register')
+                    messages.success(request, "username exist, please choose different username")
                if User.objects.filter(email=email).exists():
-                    return redirect('register')
+                    messages.success(request, "user email already exist, please choose different email")
                else:
                     user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name=last_name)
                     user.username = user.username.lower()
                     user.save()
                     print("User created")
                     login(request, user)
-                    return redirect('store')
+               return redirect('store')
           else:
-               return redirect('register')
-     else:
-          # messages.success(request, "An error has occured while registration")
-          return redirect('register')
-
+               messages.success(request, "Password doesn't match")
+          
      context = {'page': page,
                 }
      return render(request, 'store/login_register.html', context)

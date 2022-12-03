@@ -17,25 +17,26 @@
           <form method="POST" action="{% url 'register' %}" class="form auth__form">
             {% csrf_token %}
             <!-- iterating over field in form -->
-            <input type="text", name="first_name" placeholder="First Name"><br>
-            <input type="text", name="last_name" placeholder="Last Name"><br>
-            <input type="text", name="username" placeholder="User Name"><br>
-            <input type="email", name="email" placeholder="email"><br>
-            <input type="password", name="password1" placeholder="password"><br>
-            <input type="password", name="password2" placeholder="password"><br>
+            <input class="form-field" type="text", name="first_name" placeholder="First Name"><br>
+            <input class="form-field" type="text", name="last_name" placeholder="Last Name"><br>
+            <input class="form-field" type="text", name="username" placeholder="User Name"><br>
+            <input class="form-field" type="email", name="email" placeholder="email"><br>
+            <input class="form-field" type="password", name="password1" placeholder="password"><br>
+            <input class="form-field" type="password", name="password2" placeholder="password"><br>
             </div>
             <div class="auth__actions">
-              <input class="btn btn--sub btn--lg" type="submit" value="Register">
+              <!-- <input class="btn btn--sub btn--lg" type="" value="Register"> -->
+              <input class="btn btn-primary" type="submit" value="Register">
             </div>
           </form>
-          <!-- {% for message in messages %}
+          {% for message in messages %}
           <div>
-            <h3>{{message}}</h3>
+            <h4>{{message}}</h4>
           </div>
-          {% endfor %} -->
+          {% endfor %}
           <div class="auth__alternative">
             <p>Already have an Account?</p>
-            <a href="{% url 'login' %}">Log In</a>
+            <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>
           </div>
         </div>
       </div>
@@ -79,13 +80,13 @@
           />
         </div>
         <div class="auth__actions">
-          <input class="btn btn--sub btn--lg" type="submit" value="Log In"> 
+          <input class="btn btn-primary" type="submit" value="Login">
         </div>
       </form>
       
       <div class="auth__alternative">
         <p>Don’t have an Account?</p>
-        <a href="{% url 'register' %}">Sign Up</a>
+        <a class="btn btn-primary" href="{% url 'register' %}" role="button">Register</a>
       </div>
     </div>
   </div>
