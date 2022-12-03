@@ -1,12 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200, null=True)
+    username = models.CharField(max_length=200, null=True)
     email = models.EmailField(max_length=200, null=True)
+    created = models.DateTimeField(auto_now_add=True)
     
-    def __str__(self) -> str:
+    def __str__(self):
         return self.name
     
 class Product(models.Model):
@@ -57,6 +60,8 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderitems])
         return total
+    
+# CART
     
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)

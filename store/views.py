@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+# from django.contrib import messages
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, auth
 from django.http import JsonResponse
 from .models import *
 from .utils import cookieCart, cartData, guestCheckout
@@ -7,12 +11,84 @@ import json
 import datetime
 
 # Create your views here.
+
+def loginUser(request):
+     page = 'login'
+     # restricts logedin user to visit login pg
+     if request.user.is_authenticated:
+          return redirect('logout')
+
+     if request.method == 'POST':
+          username = request.POST['username']
+          password = request.POST['password']
+          # to cath exception
+          try:
+               # queriying the user
+               user = User.objects.get(username=username)
+          except:
+               messages.error(request, 'Username does not exist')
+          
+          # fetching user data
+          user = authenticate(request, username=username, password=password)
+          if user is not None:
+               auth.login(request, user)
+               return redirect('store')
+          else:
+              messages.error(request, 'Username or password is incorrect')
+     return render(request, 'store/login_register.html')
+
+
+def logoutUser(request):
+    logout(request)
+    messages.info(request, 'sucessfully logged out')
+    return redirect('login')
+
+
+def registerUser(request):
+     page = 'register'
+
+     if request.method == 'POST':
+          print("*****Yes Post")
+          first_name = request.POST.get('first_name')
+          last_name = request.POST.get('last_name')
+          username = request.POST.get('username')
+          email = request.POST.get('email')
+          password1 = request.POST.get('password1')
+          password2 = request.POST.get('password2')
+          # to bverify both password
+               
+          if password1==password2:
+               # creating an user obj
+               # check if email and name already exist
+               if User.objects.filter(username=username).exists():
+                    return redirect('register')
+               if User.objects.filter(email=email).exists():
+                    return redirect('register')
+               else:
+                    user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name=last_name)
+                    user.username = user.username.lower()
+                    user.save()
+                    print("User created")
+                    login(request, user)
+                    return redirect('store')
+          else:
+               return redirect('register')
+     else:
+          # messages.success(request, "An error has occured while registration")
+          return redirect('register')
+
+     context = {'page': page,
+                }
+     return render(request, 'store/login_register.html', context)
+
+
+# Create your views here.
 def store(request):
      data = cartData(request)
      cartItems = data['cartItems']
      products = Product.objects.all()
      context = {'products':products, 'cartItems':cartItems}
-     print(products[0].imageURL)
+     print("UserName: *****", request.user.username)
      return render(request, 'store/store.html', context)
 
 def cart(request):
@@ -20,7 +96,6 @@ def cart(request):
      cartItems = data['cartItems']
      order = data['order']
      items = data['items']
-          
      context = {'items':items, 'order':order, 'cartItems':cartItems}
      return render(request, 'store/cart.html', context)
 
