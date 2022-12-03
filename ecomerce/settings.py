@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-)kh!hvzra=a1hb(eh00r+o8if)dtr0l#@0p^vhd4p_r(dtrg7k
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', '.vercel.app', '.now.sh']
 
 
 # Application definition
@@ -134,7 +134,7 @@ USE_TZ = True
 
 
 
-STATIC_ROOT = BASE_DIR/ 'staticfiles'
+STATIC_ROOT = BASE_DIR/ 'staticfiles_build'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
