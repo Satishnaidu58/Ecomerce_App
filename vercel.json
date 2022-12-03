@@ -4,7 +4,7 @@
         {
             "src": "ecomerce/wsgi.py",
             "use": "@vercel/python",
-            "config": {"maxLambdaSize": "15mb", "runtime":"Python 3.9.14"}
+            "config": {"maxLambdaSize": "15mb", "runtime":"Python 3.9"}
         },
         {
             "src":"build_files.sh",
