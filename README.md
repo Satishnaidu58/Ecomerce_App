@@ -1,5 +1,5 @@
 # EStore 
-### Ecomerce web application - [live link](https://ecomerceapp-production-e565.up.railway.app/)
+### Ecomerce web application - [live link](https://ecomerceapp.up.railway.app/)
 - Implemented CRUD in products and cart, product categories (Digital, Physical)
 - Authenticate user as-well as guest user login, order, checkout-order, and payment implementation.
 - Tech Stack
